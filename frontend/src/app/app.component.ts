@@ -212,15 +212,21 @@ interface ExtensionGroup {
 
     .icon-title {
       display: flex;
-      align-items: flex-start;
+      align-items: center;
       gap: 1rem;
-    }
 
-    .icon-title mat-icon {
-      color: var(--primary);
-      font-size: 24px;
-      width: 24px;
-      height: 24px;
+      mat-icon {
+        font-size: 2rem;
+        width: 2rem;
+        height: 2rem;
+        color: var(--primary);
+        animation: gentleFloat 6s ease-in-out infinite;
+        filter: drop-shadow(0 2px 4px rgba(0, 0, 0, 0.1));
+      }
+
+      &:hover mat-icon {
+        animation: elegantPulse 2s ease-in-out infinite;
+      }
     }
 
     .icon-title h2 {
@@ -283,65 +289,159 @@ interface ExtensionGroup {
 
     .extension-group {
       border-bottom: 1px solid var(--border);
-    }
+      margin-bottom: 1rem;
 
-    .extension-group:last-child {
-      border-bottom: none;
+      &:last-child {
+        border-bottom: none;
+        margin-bottom: 0;
+      }
     }
 
     .group-header {
       display: flex;
+      align-items: center;
       justify-content: space-between;
-      align-items: center;
-      padding: 1rem;
+      padding: 0.5rem;
       cursor: pointer;
-      transition: all 0.3s ease;
-      background: var(--surface);
-      border: 1px solid var(--border);
-    }
-
-    .group-header:hover {
-      background: var(--surface-variant);
-    }
-
-    .group-info {
-      display: flex;
-      align-items: center;
-      gap: 0.75rem;
-    }
-
-    .group-info mat-icon {
-      color: var(--primary);
-    }
-
-    .group-count {
-      display: flex;
-      align-items: center;
-      gap: 0.5rem;
-      color: var(--primary);
-      background: var(--surface-variant);
-      padding: 0.25rem 0.75rem;
       border-radius: var(--radius-sm);
-    }
+      transition: background-color 0.2s ease;
+      position: relative;
+      overflow: hidden;
 
-    .expand-icon {
-      transition: transform 0.2s;
-    }
+      &::after {
+        content: '';
+        position: absolute;
+        top: 0;
+        left: 0;
+        right: 0;
+        bottom: 0;
+        background: linear-gradient(
+          90deg,
+          transparent,
+          rgba(var(--primary-rgb), 0.1),
+          transparent
+        );
+        transform: translateX(-100%);
+        transition: transform 0.5s ease;
+      }
 
-    .expand-icon.expanded {
-      transform: rotate(180deg);
+      &:hover::after {
+        transform: translateX(100%);
+      }
+
+      .group-info {
+        display: flex;
+        align-items: center;
+        gap: 0.75rem;
+
+        mat-icon {
+          color: var(--primary);
+          animation: gentleFloat 8s ease-in-out infinite;
+          filter: drop-shadow(0 2px 4px rgba(0, 0, 0, 0.1));
+        }
+      }
+
+      &:hover .group-info mat-icon {
+        animation: elegantPulse 1.5s ease-in-out infinite;
+      }
+
+      .group-count {
+        background: var(--surface-variant);
+        padding: 0.25rem 0.5rem;
+        border-radius: var(--radius-sm);
+        font-size: 0.875rem;
+        transition: background-color 0.2s ease;
+
+        &:hover {
+          background-color: var(--primary);
+          color: white;
+        }
+      }
     }
 
     .group-content {
       display: none;
-      padding: 1rem;
-      background-color: var(--surface-variant);
+      padding: 0.5rem;
+      gap: 0.5rem;
+      flex-wrap: wrap;
+
+      &.expanded {
+        display: flex;
+        animation: slideDown 0.3s ease;
+      }
+
+      mat-checkbox {
+        margin: 0.25rem;
+        transition: transform 0.2s ease;
+
+        &:hover {
+          transform: translateX(4px);
+        }
+      }
     }
 
-    .group-content.expanded {
-      display: grid;
-      grid-template-columns: repeat(auto-fill, minmax(120px, 1fr));
-      gap: 1rem;
+    @keyframes slideDown {
+      from {
+        opacity: 0;
+        transform: translateY(-10px);
+      }
+      to {
+        opacity: 1;
+        transform: translateY(0);
+      }
+    }
+
+    @keyframes gentleFloat {
+      0%, 100% {
+        transform: translate(0, 0);
+      }
+      25% {
+        transform: translate(2px, -2px);
+      }
+      50% {
+        transform: translate(0, -3px);
+      }
+      75% {
+        transform: translate(-2px, -2px);
+      }
+    }
+
+    @keyframes elegantPulse {
+      0%, 100% {
+        transform: scale(1);
+        opacity: 1;
+      }
+      50% {
+        transform: scale(1.03);
+        opacity: 0.9;
+      }
+    }
+
+    @keyframes smoothRotate {
+      from {
+        transform: rotate(0deg);
+      }
+      to {
+        transform: rotate(360deg);
+      }
+    }
+
+    @keyframes shimmer {
+      0% {
+        background-position: -100% 0;
+      }
+      100% {
+        background-position: 100% 0;
+      }
+    }
+
+    @keyframes glowPulse {
+      0%, 100% {
+        filter: drop-shadow(0 0 2px var(--primary));
+      }
+      50% {
+        filter: drop-shadow(0 0 8px var(--primary));
+      }
     }
 
     .actions-section {
@@ -352,9 +452,41 @@ interface ExtensionGroup {
     }
 
     .get-files-btn {
-      background-color: var(--primary);
-      color: white;
-      padding: 0 2rem;
+      display: flex;
+      align-items: center;
+      gap: 0.5rem;
+      transition: transform 0.2s ease, box-shadow 0.2s ease;
+      position: relative;
+      overflow: hidden;
+
+      &::before {
+        content: '';
+        position: absolute;
+        top: 0;
+        left: 0;
+        right: 0;
+        bottom: 0;
+        background: linear-gradient(
+          90deg,
+          transparent,
+          rgba(255, 255, 255, 0.2),
+          transparent
+        );
+        transform: translateX(-100%);
+      }
+
+      &:hover::before {
+        transform: translateX(100%);
+        transition: transform 0.8s ease;
+      }
+
+      mat-icon {
+        animation: gentleFloat 5s ease-in-out infinite;
+      }
+
+      &:hover mat-icon {
+        animation: glowPulse 1.5s ease-in-out infinite;
+      }
     }
 
     .current-structure, .optimized-structure {
@@ -392,6 +524,41 @@ interface ExtensionGroup {
       gap: 1rem;
     }
 
+    .update-section button {
+      transition: transform 0.2s ease, box-shadow 0.2s ease;
+      position: relative;
+      overflow: hidden;
+
+      &::after {
+        content: '';
+        position: absolute;
+        top: 0;
+        left: 0;
+        right: 0;
+        bottom: 0;
+        background: linear-gradient(
+          90deg,
+          transparent,
+          rgba(255, 255, 255, 0.2),
+          transparent
+        );
+        transform: translateX(-100%);
+      }
+
+      &:hover::after {
+        transform: translateX(100%);
+        transition: transform 0.8s ease;
+      }
+
+      mat-icon {
+        animation: gentleFloat 7s ease-in-out infinite;
+      }
+
+      &:hover mat-icon {
+        animation: smoothRotate 3s linear infinite;
+      }
+    }
+
     .messages {
       width: 100%;
       max-width: 500px;
@@ -404,14 +571,58 @@ interface ExtensionGroup {
       padding: 1rem;
       border-radius: var(--radius-sm);
       margin-top: 0.5rem;
+      position: relative;
+      overflow: hidden;
     }
 
     .success-message {
       background: rgba(46, 125, 50, 0.1);
+
+      mat-icon {
+        animation: elegantPulse 3s ease-in-out infinite;
+      }
+
+      &::after {
+        content: '';
+        position: absolute;
+        top: 0;
+        left: 0;
+        right: 0;
+        bottom: 0;
+        background: linear-gradient(
+          90deg,
+          transparent,
+          rgba(46, 125, 50, 0.1),
+          transparent
+        );
+        animation: shimmer 2s infinite;
+        background-size: 200% 100%;
+      }
     }
 
     .error-message {
       background: rgba(198, 40, 40, 0.1);
+
+      mat-icon {
+        animation: gentleFloat 4s ease-in-out infinite;
+      }
+
+      &::after {
+        content: '';
+        position: absolute;
+        top: 0;
+        left: 0;
+        right: 0;
+        bottom: 0;
+        background: linear-gradient(
+          90deg,
+          transparent,
+          rgba(211, 47, 47, 0.1),
+          transparent
+        );
+        animation: shimmer 2s infinite;
+        background-size: 200% 100%;
+      }
     }
 
     /* Material Overrides */
@@ -450,6 +661,8 @@ interface ExtensionGroup {
       --radius-lg: 12px;
       --radius-sm: 4px;
       --shadow-md: 0 2px 8px rgba(0, 0, 0, 0.05);
+      --shadow-lg: 0 4px 16px rgba(0, 0, 0, 0.1);
+      --hover: #f0f0f0;
     }
 
     :root[data-theme="dark"] {
