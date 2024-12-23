@@ -17,6 +17,11 @@ interface ExtensionGroup {
   selector: 'app-root',
   template: `
     <div class="app-container">
+      <button class="theme-toggle" (click)="toggleTheme()">
+        <mat-icon>{{ isDarkTheme ? 'light_mode' : 'dark_mode' }}</mat-icon>
+        {{ isDarkTheme ? 'Light' : 'Dark' }} Mode
+      </button>
+
       <div class="header">
         <h1>Welcome to FileWizard AI</h1>
         <p class="subtitle">Intelligent file management at your fingertips</p>
@@ -162,8 +167,8 @@ interface ExtensionGroup {
     :host {
       display: block;
       min-height: 100vh;
-      background-color: #ffffff;
-      color: #333333;
+      background-color: var(--background);
+      color: var(--text-primary);
       font-family: 'Roboto', sans-serif;
     }
 
@@ -181,12 +186,12 @@ interface ExtensionGroup {
     .header h1 {
       font-size: 2.5rem;
       font-weight: 500;
-      color: #00BFA5;
+      color: var(--primary);
       margin: 0;
     }
 
     .subtitle {
-      color: #666666;
+      color: var(--text-secondary);
       font-size: 1.1rem;
       margin-top: 0.5rem;
     }
@@ -195,13 +200,16 @@ interface ExtensionGroup {
       display: grid;
       grid-template-columns: 1.5fr 1fr;
       gap: 2rem;
+      margin-bottom: 2rem;
     }
 
     .main-section, .search-section {
-      background: #ffffff;
-      border-radius: 12px;
-      box-shadow: 0 2px 8px rgba(0, 0, 0, 0.05);
+      background: var(--surface);
+      border-radius: var(--radius-lg);
+      box-shadow: var(--shadow-md);
       padding: 2rem;
+      border: 1px solid var(--border);
+      height: fit-content;
     }
 
     .section-header {
@@ -215,7 +223,7 @@ interface ExtensionGroup {
     }
 
     .icon-title mat-icon {
-      color: #00BFA5;
+      color: var(--primary);
       font-size: 24px;
       width: 24px;
       height: 24px;
@@ -225,12 +233,12 @@ interface ExtensionGroup {
       margin: 0;
       font-size: 1.5rem;
       font-weight: 500;
-      color: #333333;
+      color: var(--text-primary);
     }
 
     .icon-title p {
       margin: 0.25rem 0 0 0;
-      color: #666666;
+      color: var(--text-secondary);
       font-size: 0.9rem;
     }
 
@@ -240,6 +248,15 @@ interface ExtensionGroup {
 
     .root-path-field {
       width: 100%;
+      color: var(--text-primary);
+    }
+
+    .root-path-field input {
+      color: var(--text-primary);
+    }
+
+    .search-text {
+      color: var(--text-primary);
     }
 
     .extensions-section {
@@ -257,7 +274,7 @@ interface ExtensionGroup {
       margin: 0;
       font-size: 1rem;
       font-weight: 500;
-      color: #333333;
+      color: var(--text-primary);
     }
 
     .extension-actions {
@@ -266,12 +283,12 @@ interface ExtensionGroup {
     }
 
     .extension-groups {
-      border: 1px solid #e0e0e0;
-      border-radius: 8px;
+      border: 1px solid var(--border);
+      border-radius: var(--radius-lg);
     }
 
     .extension-group {
-      border-bottom: 1px solid #e0e0e0;
+      border-bottom: 1px solid var(--border);
     }
 
     .extension-group:last-child {
@@ -284,11 +301,13 @@ interface ExtensionGroup {
       align-items: center;
       padding: 1rem;
       cursor: pointer;
-      transition: background-color 0.2s;
+      transition: all 0.3s ease;
+      background: var(--surface);
+      border: 1px solid var(--border);
     }
 
     .group-header:hover {
-      background-color: #f5f5f5;
+      background: var(--surface-variant);
     }
 
     .group-info {
@@ -298,15 +317,17 @@ interface ExtensionGroup {
     }
 
     .group-info mat-icon {
-      color: #00BFA5;
+      color: var(--primary);
     }
 
     .group-count {
       display: flex;
       align-items: center;
       gap: 0.5rem;
-      color: #00BFA5;
-      font-size: 0.9rem;
+      color: var(--primary);
+      background: var(--surface-variant);
+      padding: 0.25rem 0.75rem;
+      border-radius: var(--radius-sm);
     }
 
     .expand-icon {
@@ -320,7 +341,7 @@ interface ExtensionGroup {
     .group-content {
       display: none;
       padding: 1rem;
-      background-color: #f9f9f9;
+      background-color: var(--surface-variant);
     }
 
     .group-content.expanded {
@@ -337,7 +358,7 @@ interface ExtensionGroup {
     }
 
     .get-files-btn {
-      background-color: #00BFA5;
+      background-color: var(--primary);
       color: white;
       padding: 0 2rem;
     }
@@ -353,7 +374,8 @@ interface ExtensionGroup {
       left: 0;
       right: 0;
       bottom: 0;
-      background: rgba(255, 255, 255, 0.9);
+      background: rgba(var(--background-rgb), 0.9);
+      backdrop-filter: blur(4px);
       display: flex;
       flex-direction: column;
       align-items: center;
@@ -369,16 +391,16 @@ interface ExtensionGroup {
     }
 
     .tree-view {
-      background: #f9f9f9;
-      border-radius: 8px;
-      padding: 1.5rem;
+      background: var(--surface-variant);
+      border: 1px solid var(--border);
     }
 
     .tree-view h3 {
       margin: 0 0 1rem 0;
       font-size: 1rem;
       font-weight: 500;
-      color: #333333;
+      color: var(--text-primary);
+      border-bottom: 2px solid var(--primary);
     }
 
     .update-section {
@@ -399,41 +421,65 @@ interface ExtensionGroup {
       align-items: center;
       gap: 0.5rem;
       padding: 1rem;
-      border-radius: 4px;
+      border-radius: var(--radius-sm);
       margin-top: 0.5rem;
     }
 
     .success-message {
-      background-color: #E8F5E9;
-      color: #2E7D32;
+      background: rgba(46, 125, 50, 0.1);
     }
 
     .error-message {
-      background-color: #FFEBEE;
-      color: #C62828;
+      background: rgba(198, 40, 40, 0.1);
     }
 
     /* Material Overrides */
     ::ng-deep {
       .mat-form-field-appearance-outline .mat-form-field-outline {
-        color: #e0e0e0;
+        color: var(--border);
       }
 
       .mat-form-field-appearance-outline.mat-focused .mat-form-field-outline-thick {
-        color: #00BFA5;
+        color: var(--primary);
       }
 
       .mat-form-field-label {
-        color: #666666;
+        color: var(--text-secondary);
       }
 
       .mat-checkbox-checked.mat-primary .mat-checkbox-background {
-        background-color: #00BFA5;
+        background-color: var(--primary);
       }
 
       .mat-button.mat-primary {
-        color: #00BFA5;
+        color: var(--primary);
       }
+    }
+
+    /* Theme Variables */
+    :root {
+      --background: #ffffff;
+      --background-rgb: 255, 255, 255;
+      --surface: #f9f9f9;
+      --surface-variant: #f5f5f5;
+      --primary: #00BFA5;
+      --text-primary: #333333;
+      --text-secondary: #666666;
+      --border: #e0e0e0;
+      --radius-lg: 12px;
+      --radius-sm: 4px;
+      --shadow-md: 0 2px 8px rgba(0, 0, 0, 0.05);
+    }
+
+    :root[data-theme="dark"] {
+      --background: #333333;
+      --background-rgb: 51, 51, 51;
+      --surface: #444444;
+      --surface-variant: #555555;
+      --primary: #00BFA5;
+      --text-primary: #ffffff;
+      --text-secondary: #cccccc;
+      --border: #666666;
     }
 
     @media (max-width: 1024px) {
@@ -538,8 +584,15 @@ export class AppComponent {
   errorMessage: string = '';
   isLoading: boolean = false;
   filesExts: string[] = [];
+  isDarkTheme = false;
 
   constructor(private dataService: DataService) {
+    // Check for saved theme preference
+    const savedTheme = localStorage.getItem('theme');
+    if (savedTheme === 'dark') {
+      this.isDarkTheme = true;
+      document.documentElement.setAttribute('data-theme', 'dark');
+    }
     this.updateSelectedCounts();
   }
 
@@ -619,5 +672,11 @@ export class AppComponent {
     else
       matchingFilePath = root_path + "/" + this.original_files.items.find((file: any) => root_path + "/" + file.dst_path === path)?.src_path;
     this.childComponents.toArray()[index].highlightFile(matchingFilePath);
+  }
+
+  toggleTheme() {
+    this.isDarkTheme = !this.isDarkTheme;
+    document.documentElement.setAttribute('data-theme', this.isDarkTheme ? 'dark' : 'light');
+    localStorage.setItem('theme', this.isDarkTheme ? 'dark' : 'light');
   }
 }

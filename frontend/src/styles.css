@@ -1,4 +1,130 @@
-/* You can add global styles to this file, and also import other style files */
+/* Theme variables and modern design system */
+@import url('https://fonts.googleapis.com/css2?family=Roboto:wght@300;400;500;700&display=swap');
 
-html, body { height: 100%; }
-body { margin: 0; font-family: Roboto, "Helvetica Neue", sans-serif; }
+:root {
+  /* Light theme */
+  --primary: #00BFA5;
+  --primary-dark: #00897B;
+  --primary-light: #B2DFDB;
+  --accent: #FF4081;
+  --background-light: #ffffff;
+  --surface-light: #ffffff;
+  --surface-variant-light: #f5f5f5;
+  --text-primary-light: #333333;
+  --text-secondary-light: #666666;
+  --border-light: #e0e0e0;
+
+  /* Dark theme */
+  --background-dark: #1a1a1a;
+  --surface-dark: #2d2d2d;
+  --surface-variant-dark: #3d3d3d;
+  --text-primary-dark: #ffffff;
+  --text-secondary-dark: #b3b3b3;
+  --border-dark: #404040;
+
+  /* Common */
+  --shadow-sm: 0 2px 4px rgba(0, 0, 0, 0.05);
+  --shadow-md: 0 4px 6px rgba(0, 0, 0, 0.07);
+  --shadow-lg: 0 10px 15px rgba(0, 0, 0, 0.1);
+  --radius-sm: 4px;
+  --radius-md: 8px;
+  --radius-lg: 12px;
+}
+
+/* Light theme (default) */
+:root {
+  --background: var(--background-light);
+  --surface: var(--surface-light);
+  --surface-variant: var(--surface-variant-light);
+  --text-primary: var(--text-primary-light);
+  --text-secondary: var(--text-secondary-light);
+  --border: var(--border-light);
+}
+
+/* Dark theme */
+:root[data-theme="dark"] {
+  --background: var(--background-dark);
+  --surface: var(--surface-dark);
+  --surface-variant: var(--surface-variant-dark);
+  --text-primary: var(--text-primary-dark);
+  --text-secondary: var(--text-secondary-dark);
+  --border: var(--border-dark);
+}
+
+html, body { 
+  height: 100%;
+  margin: 0;
+  background-color: var(--background);
+  color: var(--text-primary);
+  font-family: 'Roboto', sans-serif;
+  transition: background-color 0.3s ease, color 0.3s ease;
+}
+
+/* Modern scrollbar styling */
+::-webkit-scrollbar {
+  width: 8px;
+  height: 8px;
+}
+
+::-webkit-scrollbar-track {
+  background: var(--surface-variant);
+}
+
+::-webkit-scrollbar-thumb {
+  background: var(--primary);
+  border-radius: var(--radius-sm);
+}
+
+::-webkit-scrollbar-thumb:hover {
+  background: var(--primary-dark);
+}
+
+/* Material Design overrides for dark mode */
+[data-theme="dark"] .mat-mdc-form-field {
+  background-color: var(--surface-variant) !important;
+}
+
+[data-theme="dark"] .mat-mdc-text-field-wrapper {
+  background-color: var(--surface-variant) !important;
+}
+
+[data-theme="dark"] .mat-mdc-form-field-label {
+  color: var(--text-secondary) !important;
+}
+
+[data-theme="dark"] .mat-mdc-input-element {
+  color: var(--text-primary) !important;
+}
+
+[data-theme="dark"] .mat-mdc-checkbox {
+  color: var(--text-primary) !important;
+}
+
+/* Theme toggle button styles */
+.theme-toggle {
+  position: fixed;
+  top: 1rem;
+  right: 1rem;
+  z-index: 1000;
+  background: var(--surface);
+  border: 1px solid var(--border);
+  border-radius: var(--radius-md);
+  padding: 0.75rem 1rem;
+  cursor: pointer;
+  transition: all 0.3s ease;
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+  color: var(--text-primary);
+  box-shadow: var(--shadow-sm);
+}
+
+.theme-toggle:hover {
+  transform: translateY(-2px);
+  box-shadow: var(--shadow-md);
+  background: var(--surface-variant);
+}
+
+.theme-toggle mat-icon {
+  color: var(--primary);
+}
