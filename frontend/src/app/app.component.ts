@@ -113,54 +113,48 @@ interface ExtensionGroup {
                            [isRecursive]="isRecursive" 
                            [filesExts]="filesExts">
           </app-search-files>
-        </div>
-      </div>
 
-      <!-- Results Section -->
-      <div *ngIf="isLoading || srcPaths" class="results-section">
-        <div class="loading-overlay" *ngIf="isLoading">
-          <mat-progress-spinner mode="indeterminate" diameter="40"></mat-progress-spinner>
-          <p>Processing files...</p>
-        </div>
-
-        <div class="trees-container" *ngIf="srcPaths">
-          <div class="tree-view">
-            <h3>Current Structure</h3>
-            <app-folder-tree [paths]="srcPaths" 
-                           [rootPath]="rootPath" 
-                           [index]=0 
-                           (notify)="onNotify($event)">
-            </app-folder-tree>
-          </div>
-
-          <div class="tree-view">
-            <h3>Optimized Structure</h3>
-            <app-folder-tree [paths]="dstPaths" 
-                           [rootPath]="rootPath" 
-                           [index]=1 
-                           (notify)="onNotify($event)">
-            </app-folder-tree>
-          </div>
-        </div>
-
-        <div class="update-section" *ngIf="original_files">
-          <button mat-flat-button color="primary" (click)="updateStructure()">
-            <mat-icon>auto_fix_high</mat-icon>
-            Update Structure
-          </button>
-
-          <div class="messages">
-            <div *ngIf="successMessage" class="success-message">
-              <mat-icon>check_circle</mat-icon>
-              {{successMessage}}
+          <div class="trees-container" *ngIf="srcPaths">
+            <div class="current-structure">
+              <h3>Current Structure</h3>
+              <app-folder-tree [paths]="srcPaths" 
+                             [rootPath]="rootPath" 
+                             [index]=0 
+                             (notify)="onNotify($event)">
+              </app-folder-tree>
             </div>
-            <div *ngIf="errorMessage" class="error-message">
-              <mat-icon>error</mat-icon>
-              {{errorMessage}}
+
+            <div class="optimized-structure">
+              <h3>Optimized Structure</h3>
+              <app-folder-tree [paths]="dstPaths" 
+                             [rootPath]="rootPath" 
+                             [index]=1 
+                             (notify)="onNotify($event)">
+              </app-folder-tree>
+            </div>
+          </div>
+
+          <div class="update-section" *ngIf="original_files">
+            <button mat-flat-button color="primary" (click)="updateStructure()">
+              <mat-icon>auto_fix_high</mat-icon>
+              Update Structure
+            </button>
+
+            <div class="messages">
+              <div *ngIf="successMessage" class="success-message">
+                <mat-icon>check_circle</mat-icon>
+                {{successMessage}}
+              </div>
+              <div *ngIf="errorMessage" class="error-message">
+                <mat-icon>error</mat-icon>
+                {{errorMessage}}
+              </div>
             </div>
           </div>
         </div>
       </div>
+
+      <!-- Removed Results Section -->
     </div>
   `,
   styles: [`
@@ -198,7 +192,7 @@ interface ExtensionGroup {
 
     .content {
       display: grid;
-      grid-template-columns: 1.5fr 1fr;
+      grid-template-columns: 1fr 1.5fr;
       gap: 2rem;
       margin-bottom: 2rem;
     }
@@ -363,44 +357,31 @@ interface ExtensionGroup {
       padding: 0 2rem;
     }
 
-    .results-section {
-      margin-top: 2rem;
-      position: relative;
-    }
-
-    .loading-overlay {
-      position: absolute;
-      top: 0;
-      left: 0;
-      right: 0;
-      bottom: 0;
-      background: rgba(var(--background-rgb), 0.9);
-      backdrop-filter: blur(4px);
-      display: flex;
-      flex-direction: column;
-      align-items: center;
-      justify-content: center;
-      gap: 1rem;
-      z-index: 10;
-    }
-
-    .trees-container {
-      display: grid;
-      grid-template-columns: 1fr 1fr;
-      gap: 2rem;
-    }
-
-    .tree-view {
-      background: var(--surface-variant);
+    .current-structure, .optimized-structure {
+      background: var(--surface);
       border: 1px solid var(--border);
+      border-radius: var(--radius-sm);
+      padding: 1rem;
+      margin-top: 1rem;
+      min-height: 200px;
+      max-height: 500px;
+      overflow-y: auto;
     }
 
-    .tree-view h3 {
+    .current-structure h3, .optimized-structure h3 {
       margin: 0 0 1rem 0;
       font-size: 1rem;
       font-weight: 500;
       color: var(--text-primary);
       border-bottom: 2px solid var(--primary);
+      padding-bottom: 0.5rem;
+    }
+
+    .trees-container {
+      display: flex;
+      flex-direction: column;
+      gap: 2rem;
+      margin-top: 2rem;
     }
 
     .update-section {
