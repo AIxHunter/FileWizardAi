@@ -8,3 +8,4 @@ git+https://github.com/openai/whisper.git # heavy library, remove if you don't w
 pydub
 docx2txt
 nbconvert
+openpyxl  # for Excel file support

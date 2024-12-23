@@ -1,0 +1,124 @@
+/* Modern UI Styles */
+:root {
+  --primary-color: #2196f3;
+  --secondary-color: #03a9f4;
+  --background-color: #f5f5f5;
+  --card-background: #ffffff;
+  --text-color: #333333;
+  --border-radius: 8px;
+  --box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+  --transition: all 0.3s ease;
+}
+
+body {
+  background-color: var(--background-color);
+  color: var(--text-color);
+  font-family: 'Roboto', sans-serif;
+  margin: 0;
+  padding: 20px;
+  line-height: 1.6;
+}
+
+.container {
+  max-width: 1200px;
+  margin: 0 auto;
+  padding: 20px;
+}
+
+/* Card Styles */
+.mat-card {
+  background: var(--card-background);
+  border-radius: var(--border-radius);
+  box-shadow: var(--box-shadow);
+  transition: var(--transition);
+  margin-bottom: 20px;
+  border: none;
+  overflow: hidden;
+}
+
+.mat-card:hover {
+  transform: translateY(-2px);
+  box-shadow: 0 6px 12px rgba(0, 0, 0, 0.15);
+}
+
+/* Button Styles */
+.mat-raised-button {
+  border-radius: var(--border-radius);
+  padding: 8px 16px;
+  font-weight: 500;
+  text-transform: uppercase;
+  letter-spacing: 0.5px;
+  transition: var(--transition);
+}
+
+.mat-raised-button.mat-primary {
+  background-color: var(--primary-color);
+}
+
+.mat-raised-button:hover {
+  transform: translateY(-1px);
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+}
+
+/* Form Field Styles */
+.mat-form-field {
+  width: 100%;
+  margin-bottom: 16px;
+}
+
+.mat-form-field-wrapper {
+  padding-bottom: 0;
+}
+
+.mat-form-field-flex {
+  background-color: white;
+  border-radius: var(--border-radius);
+  padding: 0.75em 0.75em 0;
+}
+
+/* List Styles */
+.mat-list {
+  padding: 0;
+}
+
+.mat-list-item {
+  border-radius: var(--border-radius);
+  margin-bottom: 8px;
+  transition: var(--transition);
+}
+
+.mat-list-item:hover {
+  background-color: rgba(0, 0, 0, 0.04);
+}
+
+/* Animation for loading states */
+@keyframes shimmer {
+  0% {
+    background-position: -468px 0;
+  }
+  100% {
+    background-position: 468px 0;
+  }
+}
+
+.loading {
+  animation: shimmer 1s linear infinite forwards;
+  background: linear-gradient(to right, #f6f7f8 8%, #edeef1 18%, #f6f7f8 33%);
+  background-size: 800px 104px;
+}
+
+/* Responsive Design */
+@media (max-width: 768px) {
+  .container {
+    padding: 10px;
+  }
+  
+  .mat-card {
+    margin-bottom: 15px;
+  }
+  
+  .mat-raised-button {
+    width: 100%;
+    margin-bottom: 10px;
+  }
+}

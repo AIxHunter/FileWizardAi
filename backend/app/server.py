@@ -76,6 +76,11 @@ async def get_search_files(root_path: str, recursive: bool, required_exts: str, 
     return files
 
 
+@app.get("/health")
+async def health_check():
+    return {"status": "healthy"}
+
+
 if __name__ == "__main__":
     import uvicorn
 

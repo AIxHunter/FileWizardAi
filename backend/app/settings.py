@@ -171,7 +171,7 @@ class Model:
         ```
         """.strip()
         attempt = 0
-        file_tree = None
+        file_tree = []  # Initialize as empty list
         while attempt < 10:
             try:
                 chat_completion = await self.async_text_clients[
@@ -194,7 +194,7 @@ class Model:
                 attempt += 1
                 self.cnt_txt += 1
                 time.sleep(2)
-        return file_tree
+        return file_tree  # Will return empty list if all attempts fail
 
     async def search_files_api(self, summaries: list, search_query: str):
         tmp: list = []
