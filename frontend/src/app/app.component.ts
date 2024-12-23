@@ -346,15 +346,93 @@ interface ExtensionGroup {
       }
 
       .group-count {
-        background: var(--surface-variant);
-        padding: 0.25rem 0.5rem;
-        border-radius: var(--radius-sm);
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        min-width: 48px;
+        height: 24px;
+        padding: 0 8px;
+        border-radius: 12px;
         font-size: 0.875rem;
-        transition: background-color 0.2s ease;
+        font-weight: 500;
+        letter-spacing: 0.5px;
+        background: linear-gradient(135deg, var(--surface-variant), var(--surface));
+        border: 1px solid var(--border);
+        color: var(--text-secondary);
+        transition: all 0.3s ease;
+        position: relative;
+        overflow: hidden;
+
+        &::before {
+          content: '';
+          position: absolute;
+          top: 0;
+          left: 0;
+          right: 0;
+          bottom: 0;
+          background: linear-gradient(
+            135deg,
+            transparent,
+            rgba(var(--primary-rgb), 0.1),
+            transparent
+          );
+          opacity: 0;
+          transition: opacity 0.3s ease;
+        }
 
         &:hover {
-          background-color: var(--primary);
-          color: white;
+          transform: translateY(-1px);
+          box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
+          border-color: var(--primary);
+          color: var(--primary);
+
+          &::before {
+            opacity: 1;
+            animation: shimmerEffect 2s infinite;
+          }
+        }
+      }
+
+      @keyframes shimmerEffect {
+        0% {
+          transform: translateX(-100%);
+        }
+        50%, 100% {
+          transform: translateX(100%);
+        }
+      }
+
+      .group-info {
+        flex: 1;
+        display: flex;
+        align-items: center;
+        gap: 0.75rem;
+
+        mat-icon {
+          color: var(--primary);
+          transition: all 0.3s ease;
+        }
+
+        span {
+          font-weight: 500;
+          color: var(--text-primary);
+          transition: color 0.3s ease;
+        }
+      }
+
+      &:hover {
+        .group-info {
+          mat-icon {
+            transform: scale(1.1);
+          }
+          span {
+            color: var(--primary);
+          }
+        }
+
+        .group-count {
+          transform: translateY(-1px);
+          box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
         }
       }
     }
