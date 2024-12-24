@@ -128,3 +128,95 @@ html, body {
 .theme-toggle mat-icon {
   color: var(--primary);
 }
+
+/* Animations */
+@keyframes slideIn {
+  from {
+    opacity: 0;
+    transform: translateY(20px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+@keyframes float {
+  0% {
+    transform: translateY(0px);
+  }
+  50% {
+    transform: translateY(-5px);
+  }
+  100% {
+    transform: translateY(0px);
+  }
+}
+
+/* Tree structure styling */
+.trees-container {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+  gap: 24px;
+  margin-top: 24px;
+  animation: slideIn 0.5s ease-out;
+}
+
+.structure-panel {
+  background: rgba(255, 255, 255, 0.8);
+  backdrop-filter: blur(10px);
+  border-radius: 16px;
+  overflow: hidden;
+  transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+  box-shadow: 0 4px 6px rgba(0, 0, 0, 0.05);
+  animation: float 6s ease-in-out infinite;
+}
+
+.structure-panel:hover {
+  transform: translateY(-4px) scale(1.01);
+  box-shadow: 0 8px 16px rgba(0, 0, 0, 0.1);
+}
+
+/* Custom Material overrides */
+.mat-tree {
+  background: transparent;
+}
+
+.mat-tree-node {
+  min-height: 40px;
+  transition: background-color 0.2s ease;
+}
+
+.mat-tree-node:hover {
+  background-color: rgba(var(--primary-rgb), 0.05);
+}
+
+.mat-icon-button {
+  width: 32px;
+  height: 32px;
+  line-height: 32px;
+  transition: transform 0.2s ease;
+}
+
+.mat-icon-button:hover {
+  transform: rotate(5deg);
+}
+
+/* Dark mode adjustments */
+[data-theme="dark"] .structure-panel {
+  background: rgba(30, 30, 30, 0.8);
+  backdrop-filter: blur(10px);
+}
+
+[data-theme="dark"] .mat-tree-node:hover {
+  background-color: rgba(255, 255, 255, 0.05);
+}
+
+[data-theme="dark"] .type-icon {
+  color: rgba(255, 255, 255, 0.7);
+}
+
+[data-theme="dark"] .folder-icon {
+  color: var(--primary);
+  opacity: 0.9;
+}

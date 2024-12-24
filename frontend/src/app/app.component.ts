@@ -127,19 +127,19 @@ interface ExtensionGroup {
           </app-search-files>
 
           <div class="trees-container" *ngIf="srcPaths">
-            <div class="current-structure">
-              <h3>Current Structure</h3>
+            <div class="structure-panel">
               <app-folder-tree [paths]="srcPaths" 
-                             [rootPath]="rootPath" 
+                             [rootPath]="rootPath"
+                             [headline]="'Current Structure'"
                              [index]=0 
                              (notify)="onNotify($event)">
               </app-folder-tree>
             </div>
 
-            <div class="optimized-structure">
-              <h3>Optimized Structure</h3>
+            <div class="structure-panel">
               <app-folder-tree [paths]="dstPaths" 
-                             [rootPath]="rootPath" 
+                             [rootPath]="rootPath"
+                             [headline]="'Optimized Structure'"
                              [index]=1 
                              (notify)="onNotify($event)">
               </app-folder-tree>
@@ -594,6 +594,26 @@ interface ExtensionGroup {
       flex-direction: column;
       gap: 2rem;
       margin-top: 2rem;
+    }
+
+    .structure-panel {
+      background: var(--surface);
+      border: 1px solid var(--border);
+      border-radius: var(--radius-sm);
+      padding: 1rem;
+      margin-top: 1rem;
+      min-height: 200px;
+      max-height: 500px;
+      overflow-y: auto;
+    }
+
+    .structure-panel h3 {
+      margin: 0 0 1rem 0;
+      font-size: 1rem;
+      font-weight: 500;
+      color: var(--text-primary);
+      border-bottom: 2px solid var(--primary);
+      padding-bottom: 0.5rem;
     }
 
     .update-section {

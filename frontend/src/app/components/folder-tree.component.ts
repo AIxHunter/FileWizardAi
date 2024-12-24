@@ -26,62 +26,164 @@ export interface TreeNode {
 @Component({
   selector: 'app-folder-tree',
   template: `
-    <h2>{{headline}}</h2>
-    <mat-tree [dataSource]="dataSource" [treeControl]="treeControl" class="custom-tree">
-      <h1>text</h1>
-      <mat-tree-node *matTreeNodeDef="let node" matTreeNodeToggle matTreeNodePadding [ngStyle]="{ color: node.highlighted ? 'red' : 'inherit' }">
-        <button mat-icon-button disabled></button>
-        <mat-icon class="type-icon" (click)="onFileOpenClick(node)" [attr.aria-label]="node.type + 'icon'">
-          {{ node.type === 'file' ? 'description' : 'folder' }}
-        </mat-icon>
-        {{node.name}}
-        <mat-icon *ngIf="index < 2" matTooltip="Show file in the other Tree" (click)="notifyParent(node)" style="margin-left: 0.5%;">{{ index === 0 ? 'arrow_downward' : 'arrow_upward' }}</mat-icon>
-      </mat-tree-node>
+    <div class="tree-container">
+      <div class="tree-header">
+        <mat-icon class="header-icon pulse">{{ headline === 'Current Structure' ? 'folder_open' : 'auto_fix_high' }}</mat-icon>
+        <h3>{{ headline }}</h3>
+      </div>
+      <mat-tree [dataSource]="dataSource" [treeControl]="treeControl">
+        <mat-tree-node *matTreeNodeDef="let node" matTreeNodePadding class="fade-in">
+          <button mat-icon-button disabled></button>
+          <mat-icon class="type-icon" [class.highlight]="isSelected(node)">{{ getNodeIcon(node) }}</mat-icon>
+          <span class="node-name" [class.selected]="isSelected(node)" (click)="selectNode(node)">
+            {{ node.name }}
+          </span>
+        </mat-tree-node>
 
-      <mat-tree-node *matTreeNodeDef="let node;when: hasChild" matTreeNodePadding>
-        <button mat-icon-button matTreeNodeToggle
-                [attr.aria-label]="'toggle ' + node.name">
-          <mat-icon class="mat-icon-rtl-mirror">
-            {{treeControl.isExpanded(node) ? 'expand_more' : 'chevron_right'}}
+        <mat-tree-node *matTreeNodeDef="let node; when: hasChild" matTreeNodePadding class="fade-in">
+          <button mat-icon-button [attr.aria-label]="'Toggle ' + node.name" matTreeNodeToggle>
+            <mat-icon class="folder-icon">
+              {{ treeControl.isExpanded(node) ? 'folder_open' : 'folder' }}
+            </mat-icon>
+          </button>
+          <span class="node-name" [class.selected]="isSelected(node)" (click)="selectNode(node)">
+            {{ node.name }}
+          </span>
+          <mat-icon *ngIf="index < 2" matTooltip="Show folder in the other Tree" (click)="notifyParent(node)" class="action-icon">
+            {{ index === 0 ? 'arrow_downward' : 'arrow_upward' }}
           </mat-icon>
-        </button>
-        <mat-icon class="type-icon" [attr.aria-label]="node.type + 'icon'">
-          {{ node.type === 'file' ? 'description' : 'folder' }}
-        </mat-icon>
-        {{node.name}}
-      </mat-tree-node>
-    </mat-tree>
-
+        </mat-tree-node>
+      </mat-tree>
+    </div>
   `,
   styles: [`
-    .type-icon {
-      color: #999;
-      margin-right: 5px;
+    .tree-container {
+      padding: 16px;
     }
 
-    ::ng-deep .mat-mdc-icon-button.mat-mdc-button-base {
-      width: 48px;
-      height: 24px;
-      padding: 0;
+    .tree-header {
+      display: flex;
+      align-items: center;
+      margin-bottom: 16px;
+      gap: 12px;
+    }
+
+    .header-icon {
+      color: var(--primary);
+      font-size: 24px;
+    }
+
+    .pulse {
+      animation: pulse 2s infinite;
+    }
+
+    @keyframes pulse {
+      0% {
+        transform: scale(1);
+        opacity: 1;
+      }
+      50% {
+        transform: scale(1.1);
+        opacity: 0.8;
+      }
+      100% {
+        transform: scale(1);
+        opacity: 1;
+      }
+    }
+
+    .fade-in {
+      animation: fadeIn 0.3s ease-in;
+    }
+
+    @keyframes fadeIn {
+      from {
+        opacity: 0;
+        transform: translateY(10px);
+      }
+      to {
+        opacity: 1;
+        transform: translateY(0);
+      }
+    }
+
+    .type-icon {
+      margin-right: 8px;
+      font-size: 20px;
+      transition: all 0.3s ease;
+    }
+
+    .type-icon.highlight {
+      color: var(--primary);
+      transform: scale(1.2);
+    }
+
+    .node-name {
+      cursor: pointer;
+      padding: 2px 8px;
+      border-radius: 4px;
+      transition: all 0.2s ease;
+      flex-grow: 1;
+    }
+
+    .node-name:hover {
+      background: var(--hover-bg);
+    }
+
+    .node-name.selected {
+      background: var(--primary-light);
+      color: var(--primary);
+      font-weight: 500;
+    }
+
+    .folder-icon {
+      font-size: 20px;
+      color: var(--primary);
+      transition: transform 0.3s ease;
+    }
+
+    button[matTreeNodeToggle]:hover .folder-icon {
+      transform: scale(1.1);
+    }
+
+    .action-icon {
+      opacity: 0;
+      transition: all 0.2s ease;
+      color: var(--primary);
+      margin-left: 8px;
+      cursor: pointer;
+    }
+
+    mat-tree-node:hover .action-icon {
+      opacity: 1;
+    }
+
+    .action-icon:hover {
+      transform: scale(1.2);
     }
 
     ::ng-deep .mat-tree-node {
-      min-height: 24px;
+      min-height: 26px !important;
     }
 
-    .mat-tree-node:hover {
-      background-color: #e0e0e0; /* Light grey on hover */
+    ::ng-deep .mat-tree {
+      margin-left: -12px;
     }
 
-    .custom-tree {
-      margin: 1%;
-      border: 2px solid #9E9E9E; /* Green border */
-      box-shadow: 0 4px 8px 0 rgba(128, 128, 128, 0.2), 0 6px 20px 0 rgba(128, 128, 128, 0.19); /* Shadow effect in grey */
-      padding: 16px; /* Optional padding */
-      border-radius: 8px; /* Optional rounded corners */
-      background-color: #f5f5f5;
+    ::ng-deep .mat-tree-node .mat-tree-node {
+      margin-left: 24px;
     }
 
+    ::ng-deep .mat-icon-button {
+      width: 28px;
+      height: 28px;
+      line-height: 28px;
+      margin-right: 4px;
+    }
+
+    ::ng-deep .mat-tree {
+      background: transparent;
+    }
   `]
 })
 
@@ -227,5 +329,35 @@ export class FolderTreeComponent implements OnInit {
     const nodes = this.treeControl.dataNodes;
     for (let i = 0; i < nodes.length; i++) nodes[i].highlighted = false;
     this.notify.emit({ 'index': this.index, 'path': node.path });
+  }
+
+  getNodeIcon(node: TreeNode): string {
+    if (node.type === 'file') {
+      const extension = node.name.split('.').pop()?.toLowerCase();
+      switch (extension) {
+        case 'jpg':
+        case 'jpeg':
+        case 'png':
+          return 'image';
+        case 'pdf':
+          return 'picture_as_pdf';
+        case 'xlsx':
+        case 'xls':
+          return 'table_chart';
+        default:
+          return 'description';
+      }
+    }
+    return 'folder';
+  }
+
+  isSelected(node: TreeNode): boolean {
+    return node.highlighted;
+  }
+
+  selectNode(node: TreeNode): void {
+    const nodes = this.treeControl.dataNodes;
+    for (let i = 0; i < nodes.length; i++) nodes[i].highlighted = false;
+    node.highlighted = true;
   }
 }
