@@ -23,8 +23,20 @@ interface ExtensionGroup {
       </button>
 
       <div class="header">
-        <h1>Welcome to FileWizard AI</h1>
-        <p class="subtitle">Intelligent file management at your fingertips</p>
+        <div class="header-content">
+          <h1>Welcome to FileWizard AI</h1>
+          <p class="subtitle">Intelligent file management at your fingertips</p>
+          <a class="github-link" href="https://github.com/AIxHunter/FileWizardAI/tree/main" target="_blank">
+            <div class="github-icons">
+              <svg class="github-logo" height="24" viewBox="0 0 16 16" width="24">
+                <path fill="currentColor" d="M8 0C3.58 0 0 3.58 0 8c0 3.54 2.29 6.53 5.47 7.59.4.07.55-.17.55-.38 0-.19-.01-.82-.01-1.49-2.01.37-2.53-.49-2.69-.94-.09-.23-.48-.94-.82-1.13-.28-.15-.68-.52-.01-.53.63-.01 1.08.58 1.23.82.72 1.21 1.87.87 2.33.66.07-.52.28-.87.51-1.07-1.78-.2-3.64-.89-3.64-3.95 0-.87.31-1.59.82-2.15-.08-.2-.36-1.02.08-2.12 0 0 .67-.21 2.2.82.64-.18 1.32-.27 2-.27.68 0 1.36.09 2 .27 1.53-1.04 2.2-.82 2.2-.82.44 1.1.16 1.92.08 2.12.51.56.82 1.27.82 2.15 0 3.07-1.87 3.75-3.65 3.95.29.25.54.73.54 1.48 0 1.07-.01 1.93-.01 2.2 0 .21.15.46.55.38A8.013 8.013 0 0016 8c0-4.42-3.58-8-8-8z"></path>
+              </svg>
+              <span>View on GitHub</span>
+              <mat-icon class="arrow">arrow_forward</mat-icon>
+            </div>
+          </a>
+        </div>
+        <div class="header-background"></div>
       </div>
 
       <div class="content">
@@ -170,24 +182,184 @@ interface ExtensionGroup {
       max-width: 1200px;
       margin: 0 auto;
       padding: 2rem;
+      animation: fadeIn 0.5s ease;
+    }
+
+    @keyframes fadeIn {
+      from {
+        opacity: 0;
+        transform: translateY(20px);
+      }
+      to {
+        opacity: 1;
+        transform: translateY(0);
+      }
     }
 
     .header {
       text-align: center;
-      margin-bottom: 3rem;
+      margin-bottom: 4rem;
+      padding: 4rem 2rem;
+      position: relative;
+      overflow: hidden;
+      background: linear-gradient(180deg, 
+        rgba(0, 191, 165, 0.03) 0%,
+        rgba(100, 255, 218, 0.02) 100%
+      );
+      backdrop-filter: blur(10px);
+      border-bottom: 1px solid rgba(255, 255, 255, 0.05);
+    }
+
+    .header-content {
+      position: relative;
+      z-index: 2;
+      max-width: 800px;
+      margin: 0 auto;
+    }
+
+    .header-background {
+      position: absolute;
+      top: -50%;
+      left: -50%;
+      right: -50%;
+      bottom: -50%;
+      background: 
+        radial-gradient(circle at 20% 30%, rgba(0, 191, 165, 0.03) 0%, transparent 70%),
+        radial-gradient(circle at 80% 70%, rgba(100, 255, 218, 0.03) 0%, transparent 70%);
+      transform-origin: center;
+      animation: gentleRotate 30s linear infinite;
+      z-index: 1;
+      filter: blur(30px);
     }
 
     .header h1 {
-      font-size: 2.5rem;
-      font-weight: 500;
-      color: var(--primary);
+      font-size: 4rem;
+      font-weight: 700;
       margin: 0;
+      background: linear-gradient(135deg, 
+        rgba(0, 191, 165, 1) 0%,
+        rgba(100, 255, 218, 1) 50%,
+        rgba(0, 191, 165, 1) 100%
+      );
+      background-size: 200% auto;
+      -webkit-background-clip: text;
+      background-clip: text;
+      -webkit-text-fill-color: transparent;
+      letter-spacing: -0.02em;
+      line-height: 1.1;
+      animation: shimmerText 8s linear infinite;
+      text-shadow: 0 2px 10px rgba(0, 191, 165, 0.2);
     }
 
     .subtitle {
       color: var(--text-secondary);
-      font-size: 1.1rem;
-      margin-top: 0.5rem;
+      font-size: 1.3rem;
+      margin-top: 1.5rem;
+      font-weight: 400;
+      letter-spacing: 0.02em;
+      opacity: 0.9;
+      animation: fadeInUp 0.8s ease 0.2s both;
+      text-shadow: 0 1px 2px rgba(0, 0, 0, 0.1);
+    }
+
+    .github-link {
+      display: inline-flex;
+      align-items: center;
+      gap: 0.75rem;
+      color: var(--text-primary);
+      text-decoration: none;
+      margin-top: 2.5rem;
+      padding: 0.75rem 1.75rem;
+      border-radius: 50px;
+      background: rgba(0, 191, 165, 0.1);
+      border: 1px solid rgba(0, 191, 165, 0.2);
+      transition: all 0.4s cubic-bezier(0.4, 0, 0.2, 1);
+      animation: fadeInUp 0.8s ease 0.4s both;
+      font-weight: 500;
+      position: relative;
+      overflow: hidden;
+      backdrop-filter: blur(5px);
+
+      .github-icons {
+        display: flex;
+        align-items: center;
+        gap: 0.75rem;
+      }
+
+      .github-logo {
+        color: var(--primary);
+        transition: all 0.3s ease;
+        animation: floatIcon 6s ease-in-out infinite;
+      }
+
+      span {
+        font-size: 0.95rem;
+        letter-spacing: 0.02em;
+      }
+
+      .arrow {
+        font-size: 18px;
+        transition: all 0.3s ease;
+        opacity: 0;
+        transform: translateX(-10px);
+        color: var(--primary);
+        margin-left: 4px;
+      }
+
+      &:hover {
+        color: var(--primary);
+        background: rgba(0, 191, 165, 0.15);
+        border-color: rgba(0, 191, 165, 0.5);
+        transform: translateY(-2px);
+        padding-right: 2.25rem;
+        box-shadow: 
+          0 4px 20px rgba(0, 191, 165, 0.2),
+          0 0 0 2px rgba(0, 191, 165, 0.1);
+
+        &::before {
+          animation: shimmer 1s forwards;
+        }
+
+        .github-logo {
+          transform: scale(1.1);
+          filter: drop-shadow(0 0 8px rgba(0, 191, 165, 0.5));
+        }
+
+        .arrow {
+          opacity: 1;
+          transform: translateX(0);
+        }
+      }
+    }
+
+    @keyframes gentleRotate {
+      from {
+        transform: rotate(0deg);
+      }
+      to {
+        transform: rotate(360deg);
+      }
+    }
+
+    @keyframes shimmerText {
+      to {
+        background-position: 200% center;
+      }
+    }
+
+    @keyframes floatIcon {
+      0%, 100% {
+        transform: translateY(0);
+      }
+      50% {
+        transform: translateY(-3px);
+      }
+    }
+
+    @keyframes shimmer {
+      to {
+        transform: translateX(100%);
+      }
     }
 
     .content {
@@ -200,10 +372,15 @@ interface ExtensionGroup {
     .main-section, .search-section {
       background: var(--surface);
       border-radius: var(--radius-lg);
-      box-shadow: var(--shadow-md);
       padding: 2rem;
       border: 1px solid var(--border);
       height: fit-content;
+      transition: transform 0.3s ease, box-shadow 0.3s ease;
+
+      &:hover {
+        transform: translateY(-2px);
+        box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+      }
     }
 
     .section-header {
@@ -301,138 +478,42 @@ interface ExtensionGroup {
       display: flex;
       align-items: center;
       justify-content: space-between;
-      padding: 0.5rem;
+      padding: 0.75rem 1rem;
       cursor: pointer;
       border-radius: var(--radius-sm);
-      transition: background-color 0.2s ease;
-      position: relative;
-      overflow: hidden;
-
-      &::after {
-        content: '';
-        position: absolute;
-        top: 0;
-        left: 0;
-        right: 0;
-        bottom: 0;
-        background: linear-gradient(
-          90deg,
-          transparent,
-          rgba(var(--primary-rgb), 0.1),
-          transparent
-        );
-        transform: translateX(-100%);
-        transition: transform 0.5s ease;
-      }
-
-      &:hover::after {
-        transform: translateX(100%);
-      }
+      transition: all 0.3s ease;
 
       .group-info {
         display: flex;
         align-items: center;
-        gap: 0.75rem;
-
-        mat-icon {
-          color: var(--primary);
-          animation: gentleFloat 8s ease-in-out infinite;
-          filter: drop-shadow(0 2px 4px rgba(0, 0, 0, 0.1));
-        }
-      }
-
-      &:hover .group-info mat-icon {
-        animation: elegantPulse 1.5s ease-in-out infinite;
-      }
-
-      .group-count {
-        display: flex;
-        align-items: center;
-        justify-content: center;
-        min-width: 48px;
-        height: 24px;
-        padding: 0 8px;
-        border-radius: 12px;
-        font-size: 0.875rem;
-        font-weight: 500;
-        letter-spacing: 0.5px;
-        background: linear-gradient(135deg, var(--surface-variant), var(--surface));
-        border: 1px solid var(--border);
-        color: var(--text-secondary);
-        transition: all 0.3s ease;
-        position: relative;
-        overflow: hidden;
-
-        &::before {
-          content: '';
-          position: absolute;
-          top: 0;
-          left: 0;
-          right: 0;
-          bottom: 0;
-          background: linear-gradient(
-            135deg,
-            transparent,
-            rgba(var(--primary-rgb), 0.1),
-            transparent
-          );
-          opacity: 0;
-          transition: opacity 0.3s ease;
-        }
-
-        &:hover {
-          transform: translateY(-1px);
-          box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
-          border-color: var(--primary);
-          color: var(--primary);
-
-          &::before {
-            opacity: 1;
-            animation: shimmerEffect 2s infinite;
-          }
-        }
-      }
-
-      @keyframes shimmerEffect {
-        0% {
-          transform: translateX(-100%);
-        }
-        50%, 100% {
-          transform: translateX(100%);
-        }
-      }
-
-      .group-info {
+        gap: 0.5rem;
         flex: 1;
-        display: flex;
-        align-items: center;
-        gap: 0.75rem;
 
         mat-icon {
+          font-size: 20px;
+          width: 20px;
+          height: 20px;
           color: var(--primary);
-          transition: all 0.3s ease;
+          transition: transform 0.3s ease;
+          display: flex;
+          align-items: center;
+          justify-content: center;
+          animation: gentleFloat 6s ease-in-out infinite;
         }
 
         span {
-          font-weight: 500;
+          font-size: 0.9rem;
           color: var(--text-primary);
-          transition: color 0.3s ease;
+          line-height: 20px;
         }
       }
 
       &:hover {
-        .group-info {
-          mat-icon {
-            transform: scale(1.1);
-          }
-          span {
-            color: var(--primary);
-          }
-        }
+        background: rgba(var(--primary-rgb), 0.05);
+        transform: translateX(4px);
 
-        .group-count {
-          transform: translateY(-1px);
-          box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
+        .group-info mat-icon {
+          transform: scale(1.1);
         }
       }
     }
@@ -445,20 +526,11 @@ interface ExtensionGroup {
 
       &.expanded {
         display: flex;
-        animation: slideDown 0.3s ease;
-      }
-
-      mat-checkbox {
-        margin: 0.25rem;
-        transition: transform 0.2s ease;
-
-        &:hover {
-          transform: translateX(4px);
-        }
+        animation: expandContent 0.3s ease;
       }
     }
 
-    @keyframes slideDown {
+    @keyframes expandContent {
       from {
         opacity: 0;
         transform: translateY(-10px);
@@ -466,59 +538,6 @@ interface ExtensionGroup {
       to {
         opacity: 1;
         transform: translateY(0);
-      }
-    }
-
-    @keyframes gentleFloat {
-      0%, 100% {
-        transform: translate(0, 0);
-      }
-      25% {
-        transform: translate(2px, -2px);
-      }
-      50% {
-        transform: translate(0, -3px);
-      }
-      75% {
-        transform: translate(-2px, -2px);
-      }
-    }
-
-    @keyframes elegantPulse {
-      0%, 100% {
-        transform: scale(1);
-        opacity: 1;
-      }
-      50% {
-        transform: scale(1.03);
-        opacity: 0.9;
-      }
-    }
-
-    @keyframes smoothRotate {
-      from {
-        transform: rotate(0deg);
-      }
-      to {
-        transform: rotate(360deg);
-      }
-    }
-
-    @keyframes shimmer {
-      0% {
-        background-position: -100% 0;
-      }
-      100% {
-        background-position: 100% 0;
-      }
-    }
-
-    @keyframes glowPulse {
-      0%, 100% {
-        filter: drop-shadow(0 0 2px var(--primary));
-      }
-      50% {
-        filter: drop-shadow(0 0 8px var(--primary));
       }
     }
 
@@ -533,37 +552,20 @@ interface ExtensionGroup {
       display: flex;
       align-items: center;
       gap: 0.5rem;
-      transition: transform 0.2s ease, box-shadow 0.2s ease;
+      transition: all 0.3s ease;
       position: relative;
-      overflow: hidden;
 
-      &::before {
-        content: '';
-        position: absolute;
-        top: 0;
-        left: 0;
-        right: 0;
-        bottom: 0;
-        background: linear-gradient(
-          90deg,
-          transparent,
-          rgba(255, 255, 255, 0.2),
-          transparent
-        );
-        transform: translateX(-100%);
-      }
+      &:hover {
+        transform: translateY(-2px);
+        box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
 
-      &:hover::before {
-        transform: translateX(100%);
-        transition: transform 0.8s ease;
+        mat-icon {
+          transform: rotate(180deg);
+        }
       }
 
       mat-icon {
-        animation: gentleFloat 5s ease-in-out infinite;
-      }
-
-      &:hover mat-icon {
-        animation: glowPulse 1.5s ease-in-out infinite;
+        transition: transform 0.3s ease;
       }
     }
 
@@ -651,6 +653,18 @@ interface ExtensionGroup {
       margin-top: 0.5rem;
       position: relative;
       overflow: hidden;
+      animation: slideIn 0.3s ease;
+    }
+
+    @keyframes slideIn {
+      from {
+        opacity: 0;
+        transform: translateX(-20px);
+      }
+      to {
+        opacity: 1;
+        transform: translateX(0);
+      }
     }
 
     .success-message {
@@ -780,6 +794,15 @@ interface ExtensionGroup {
 
       .get-files-btn {
         width: 100%;
+      }
+    }
+
+    @keyframes gentleFloat {
+      0%, 100% {
+        transform: translateY(0);
+      }
+      50% {
+        transform: translateY(-2px);
       }
     }
   `]
